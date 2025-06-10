@@ -64,17 +64,5 @@ plt.legend()
 plt.grid()
 plt.show()
 
-# track stats
-start_value = 100
-end_value = data['Cumulative_Strategy'].iloc[-1]
-total_return = end_value - start_value
-percent_return = (total_return / start_value) * 100
-
-print("---------------------------------------------------------------------")
-print(f"AlphaBot Start Value: ${start_value:.2f}")
-print(f"AlphaBot Final Value: ${end_value:.2f}")
-print(f"Total Profit: ${total_return:.2f}")
-print(f"Total Return: {percent_return:.2f}%")
-print("---------------------------------------------------------------------")
-
+# Export the data for version control
 data.to_csv("outputs/day2_output.csv")
