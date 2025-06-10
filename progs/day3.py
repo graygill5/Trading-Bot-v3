@@ -38,6 +38,7 @@ sharpe = (strategy_returns.mean() / strategy_returns.std()) * (252 ** 0.5)
 
 
 # prints
+print("DAY 3: Results")
 print("---------------------------------------------------------------------")
 print(f"AlphaBot Start Value: ${start_value:.2f}")
 print(f"AlphaBot Final Value: ${end_value:.2f}")

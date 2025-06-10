@@ -57,7 +57,7 @@ data['Cumulative_Strategy'] = (1 + data['Strategy_Return']).cumprod() * 100
 plt.figure(figsize=(14, 6))
 plt.plot(data.index, data['Cumulative_Yield'], label='Holding 100', color='gray')
 plt.plot(data.index, data['Cumulative_Strategy'], label='AlphaBot', color='gold')
-plt.title("Growth of $100: Strategy vs Holding 100")
+plt.title("DAY 2: Growth of $100: Strategy vs Holding 100")
 plt.ylabel("Growth of $100")
 plt.xlabel("Date")
 plt.legend()
