@@ -1,2 +1,2 @@
 # Trading-Bot-v3
-my take on a trading bot using pandas and numpy
+Attempting to make a trading bot for the US treasury dataset too maximize returns with a high risk using pandas and python
