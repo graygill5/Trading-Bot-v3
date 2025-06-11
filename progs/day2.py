@@ -22,26 +22,16 @@ buy_condition = strong_uptrend | early_breakout
 # our sell condtion is that the SMA10 be smaller meaning that price is decreasing or if the stock is beign overbought 
 sell_condition = (data['SMA_5'] < data['SMA_20']) | (data['RSI_14'] > 70)
 
-# applies this to the entire datable column
+# applies buy and sell conditons to the entire signal column rest are left as 0's
 data.loc[buy_condition, 'Signal'] = 1
 data.loc[sell_condition, 'Signal'] = -1
 
 # create a new row called postion
 data['Position'] = 0 
 
-#loop through the data set skip the first day due to the fact that there is no yesterday
-for i in range(1, len(data)):
-    #if signal at i is 1 enter postion to buy
-    if data['Signal'].iloc[i] == 1:
-        data.iloc[i, data.columns.get_loc('Position')] = 1
-    # if signal is -1 we are exiting a trade
-    elif data['Signal'].iloc[i] == -1:
-        data.iloc[i, data.columns.get_loc('Position')] = 0 
-    # other wise just do the same thing as yesterday and hold the stock
-    else:
-        data.iloc[i, data.columns.get_loc('Position')] = data.iloc[i - 1, data.columns.get_loc('Position')] 
-
-# print(data[['Signal', 'Position']].tail(15)) // testing
+# shift signals forward 1 day for realism
+data['Position'] = data['Signal'].shift(1).fillna(0)
+data['Position'] = data['Position'].replace({-1: 0})
 
 # calculate the daily cahnge of the yield
 data['Yield_Return'] = data['US10Y'].pct_change()
