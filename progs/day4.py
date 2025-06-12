@@ -98,7 +98,7 @@ print("DAY 4: Results for testing data")
 print("---------------------------------------------------------------------")
 print(f"Test AlphaBot Value:  ${test['Cumulative_Strategy'].iloc[-1]:.2f}")
 print(f"Test Buy & Hold:      ${test['Cumulative_Yield'].iloc[-1]:.2f}")
-print("---------------------------------------------------------------------")
+print("---------------------------------------------------------------------\n")
 
 # Export the data for version control
 data.to_csv("outputs/day4_output.csv")

@@ -49,7 +49,7 @@ print(f"Win Rate: {win_rate:.2f}% ({wins} wins / {total_trades} trades)")
 print(f"Max Drawdown: {max_drawdown:.2f}%")
 print(f"Avg Return per Trade: {avg_return:.2f}%")
 print(f"Sharpe Ratio: {sharpe:.2f}")
-print("---------------------------------------------------------------------")
+print("---------------------------------------------------------------------\n")
 
 # Export the data for version control
 data.to_csv("outputs/day3_output.csv")
