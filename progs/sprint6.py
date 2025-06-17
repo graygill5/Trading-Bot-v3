@@ -72,3 +72,6 @@ plt.title("Ensemble Probabilities Distribution")
 plt.xlabel("Predicted Probability of Up Move")
 plt.ylabel("Frequency")
 plt.show()
+
+# Export the data for version control
+data.to_csv("outputs/day6_output.csv")
