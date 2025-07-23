@@ -5,11 +5,11 @@ from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 
-# === Load and Prepare Data ===
+# load data set 
 data = pd.read_csv("outputs/day5_output.csv", parse_dates=['date'])
 data.set_index('date', inplace=True)
 
-# === Feature Engineering ===
+# create some new features for testing
 data['SMA_diff'] = data['SMA_5'] - data['SMA_20']
 data['pct_change'] = data['US10Y'].pct_change()
 data['lag_1'] = data['US10Y'].shift(1)
@@ -18,43 +18,42 @@ data['volatility_3d'] = data['Yield_Return'].abs().rolling(3).mean()
 data['Target'] = (data['Yield_Return'].shift(-1) > 0).astype(int)
 data.dropna(inplace=True)
 
-# === Feature Selection ===
+# select the features 
 feature_cols = ['SMA_5', 'SMA_20', 'SMA_diff', 'RSI_14', 'pct_change', 'lag_1', 'lag_2', 'volatility_3d', 'Signal']
 X = data[feature_cols]
 y = data['Target']
 
-# === Train/Test Split ===
+# test and train data on pre covid interval
 X_train = X.loc[:'2019-12-31']
 X_test = X.loc['2020-01-01':]
 y_train = y.loc[:'2019-12-31']
 y_test = y.loc['2020-01-01':]
 
-# === Train Models ===
+# train each different model and store for the ensemble model
 logreg = LogisticRegression(max_iter=1000, class_weight='balanced')
 rf = RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=42)
 xgb = XGBClassifier(n_estimators=100, max_depth=3, scale_pos_weight=1, eval_metric='logloss')
-
 logreg.fit(X_train, y_train)
 rf.fit(X_train, y_train)
 xgb.fit(X_train, y_train)
 
-# === Predict Probabilities ===
+# make predictions
 p_logreg = logreg.predict_proba(X_test)[:, 1]
 p_rf = rf.predict_proba(X_test)[:, 1]
 p_xgb = xgb.predict_proba(X_test)[:, 1]
 
-# === Ensemble & Signal Boost Logic ===
+# ensemble the model
 ensemble_probs = (p_logreg + p_rf + p_xgb) / 3
 threshold = 0.49
 bias_boost = .20
 
-# Boost probability slightly if Signal = 1
+# use signals made in previous sprints for some bias
 adjusted_probs = ensemble_probs + (X_test['Signal'] * bias_boost)
 
-# Final predictions
+# make the final prediciton based on if its greater than the threshold
 combined_preds = (adjusted_probs > threshold).astype(int)
 
-# === Evaluation ===
+
 print("Ensemble Model + Signal Boost (Avg Probs + Signal > 0.45):")
 print(classification_report(y_test, combined_preds))
 
