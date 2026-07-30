@@ -1,6 +1,10 @@
 # Treasury Trading Bot v3
 
-Research bot for US Treasury **constant-maturity yields** with **realistic bond PnL** and **walk-forward** evaluation. The old sprint scripts compounded `US10Y.pct_change()` in-sample and reported fantasy returns (hundreds–billions ×). That approach is retired under `progs/` (legacy).
+I started this project sophomore year as a hands-on way to learn markets, pandas, and ML on real financial data. The repo is messy on purpose in places — old sprint outputs, demos, and the newer `trading_bot` package all sit together — so you’re looking at a learning trail, not a polished product.
+
+**Main question:** if you have the full US Treasury yield history, how well could you have *realistically* exploited it with simple rules you might invent in hindsight, plus a light ML integration — without cheating via look-ahead or treating yield % changes like stock returns?
+
+The current runner answers that with **realistic bond PnL** and **walk-forward** evaluation. The old sprint scripts compounded `US10Y.pct_change()` in-sample and reported fantasy returns (hundreds–billions ×). That approach is retired under `progs/` (legacy), but left in the repo as history.
 
 ## What changed
 
